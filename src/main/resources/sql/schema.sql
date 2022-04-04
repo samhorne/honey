@@ -1,4 +1,4 @@
-create table if not exists bucket_list_item(
-id      int(60)     primary key,
-text    varchar     not null,
+CREATE TABLE IF NOT EXISTS bucket_list_item (
+  id                     VARCHAR(60)  DEFAULT RANDOM_UUID() PRIMARY KEY,
+  name                   VARCHAR      NOT NULL
 );

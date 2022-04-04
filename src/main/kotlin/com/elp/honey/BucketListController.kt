@@ -1,8 +1,11 @@
 package com.elp.honey
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +22,7 @@ class BucketListResource(val service: BucketListService) {
 }
 @Table("bucket_list_item")
 data class BucketListItem(
-        val id: Int,
+        @Id val id: String?,
         val name: String
         )
 
@@ -28,7 +31,7 @@ interface ItemRepository: CrudRepository<BucketListItem, String>{
     fun findItems(): List<BucketListItem>
 }
 
-@Serviceclass
+@Service
 class BucketListService(val db: ItemRepository) {
     fun findItems(): List<BucketListItem> = db.findItems()
 
