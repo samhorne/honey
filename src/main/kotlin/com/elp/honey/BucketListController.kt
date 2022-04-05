@@ -13,21 +13,26 @@ import org.springframework.stereotype.Service;
 @RestController
 class BucketListResource(val service: BucketListService) {
     @GetMapping
-    fun index(): List<BucketListItem> = service.findItems()
+    fun index(): List<BucketListItem>{
+        println("GET CALLED")
+        return service.findItems()
+    }
 
     @PostMapping
     fun post(@RequestBody item: BucketListItem){
+        println("POST CALLED")
+        println(item);
         service.post(item)
     }
 }
-@Table("bucket_list_item")
+@Table("BUCKET_LIST_ITEM")
 data class BucketListItem(
         @Id val id: String?,
         val name: String
         )
 
 interface ItemRepository: CrudRepository<BucketListItem, String>{
-    @Query("select * from bucket_list_item")
+    @Query("select * from BUCKET_LIST_ITEM")
     fun findItems(): List<BucketListItem>
 }
 
