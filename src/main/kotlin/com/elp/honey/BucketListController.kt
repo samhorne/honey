@@ -53,14 +53,7 @@ class BucketListService(val db: ItemRepository) {
     }
 
     fun delete(id:Int) {
-//        val item: BucketListItem = db.findById(id.toString())
-//        val item = ItemRepository.findByIdOrNull(id)
-//        db.deleteItem(id)
-        var item = db.findByIdOrNull(id.toString())
-        println(item)
-        if (item != null) {
-            db.delete(item)
-        }
+        db.deleteById(id.toString())
     }
 
 }
