@@ -1,1 +1,1 @@
-create table BUCKET_LIST_ITEM(id bigint auto_increment, name varchar(255));
+create table if not exists BUCKET_LIST_ITEM(id bigint auto_increment, name varchar(255));

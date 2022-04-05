@@ -436,3 +436,6 @@ VALUES ("Singapore") [21002-200]
 2022-04-05 10:19:03 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "bucket_list_item" not found; SQL statement:
 INSERT INTO "bucket_list_item" ("NAME") VALUES (?) [42102-200]
+2022-04-05 10:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BUCKET_LIST_ITEM" already exists; SQL statement:
+create table BUCKET_LIST_ITEM(id bigint auto_increment, name varchar(255)) [42101-200]
