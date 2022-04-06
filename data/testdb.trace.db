@@ -439,3 +439,27 @@ INSERT INTO "bucket_list_item" ("NAME") VALUES (?) [42102-200]
 2022-04-05 10:56:11 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BUCKET_LIST_ITEM" already exists; SQL statement:
 create table BUCKET_LIST_ITEM(id bigint auto_increment, name varchar(255)) [42101-200]
+2022-04-06 11:48:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@537665b8"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:18:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@2fa3f43d"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:48:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@5f3c7e70"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:50:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@37939807"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:50:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@37939807"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:50:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@37939807"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:50:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@37939807"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]
+2022-04-06 13:51:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "kotlin.jvm.internal.IntCompanionObject@50cbcfd9"; SQL statement:
+SELECT "BUCKET_LIST_ITEM"."ID" AS "ID", "BUCKET_LIST_ITEM"."NAME" AS "NAME" FROM "BUCKET_LIST_ITEM" WHERE "BUCKET_LIST_ITEM"."ID" = ? [22018-200]

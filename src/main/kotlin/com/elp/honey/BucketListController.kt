@@ -14,27 +14,36 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
+@RequestMapping("/api/v1/bucketlist")
 class BucketListResource(val service: BucketListService) {
-    @GetMapping
+    @GetMapping("/")
     fun index(): List<BucketListItem>{
         return service.findItems()
     }
-
-    @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED, reason = "OK")
-    fun post(@RequestBody item: BucketListItem){
-        service.post(item)
-        return
+    @GetMapping("/{id}")
+    fun getItem(@PathVariable id: Int): BucketListItem{
+        println("Return specific item: $id")
+        return service.findItem(id)
     }
 
-    @DeleteMapping
-    fun delete(@RequestBody id:Int){
+    @PostMapping()
+    @ResponseStatus(code = HttpStatus.CREATED, reason = "OK")
+    fun post(@RequestBody item: BucketListItem): String {
+        service.post(item)
+        return "The item was created"
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Int): BucketListItem{
         return service.delete(id)
     }
 
-    @PutMapping
+    @PutMapping()
     fun update(@RequestBody item: BucketListItem){
         return service.update(item)
     }
@@ -56,12 +65,31 @@ interface ItemRepository: CrudRepository<BucketListItem, String>{
 class BucketListService(val db: ItemRepository) {
     fun findItems(): List<BucketListItem> = db.findItems()
 
+    fun findItem(id: Int): BucketListItem{
+        var itemOptional = db.findById(id.toString())
+        if (itemOptional.isPresent){
+            var item = itemOptional.get()
+            return item
+        }
+        else{
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "This article does not exist")
+        }
+    }
+
     fun post(item: BucketListItem){
         db.save(item)
     }
 
-    fun delete(id:Int) {
-        db.deleteById(id.toString())
+    fun delete(id:Int): BucketListItem{
+        var itemOptional = db.findById(id.toString())
+        if (itemOptional.isPresent){
+            var item = itemOptional.get()
+            db.deleteById(id.toString())
+            return item
+        }
+        else{
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "This item does not exist")
+        }
     }
 
     fun update(item: BucketListItem){
@@ -73,6 +101,9 @@ class BucketListService(val db: ItemRepository) {
             var item = itemOptional.get()
             item.name = newName
             db.save(item)
+        }
+        else{
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "This item does not exist")
         }
         println(item)
 //        db.save(item)
