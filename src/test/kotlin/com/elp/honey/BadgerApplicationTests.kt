@@ -25,7 +25,7 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 	@Test
 	fun exampleTest() {
 		every { bucketListService.findItem(1) } returns bucketListItem;
-		mockMvc.get("/api/v1/bucketlist")
+		mockMvc.get("/api/v1/bucketlist/")
 				.andExpect { status { isOk() } }
 
 	}
