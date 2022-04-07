@@ -25,6 +25,7 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("com.ibm.db2:jcc")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.mockk:mockk")
 }
 
 tasks.withType<KotlinCompile> {

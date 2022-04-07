@@ -32,10 +32,9 @@ class BucketListResource(val service: BucketListService) {
     }
 
     @PostMapping()
-    @ResponseStatus(code = HttpStatus.CREATED, reason = "OK")
-    fun post(@RequestBody item: BucketListItem): String {
-        service.post(item)
-        return "The item was created"
+//    @ResponseStatus(code = HttpStatus.CREATED, reason = "OK")
+    fun post(@RequestBody item: BucketListItem): BucketListItem {
+        return service.post(item)
     }
 
     @DeleteMapping("/{id}")
@@ -76,8 +75,9 @@ class BucketListService(val db: ItemRepository) {
         }
     }
 
-    fun post(item: BucketListItem){
+    fun post(item: BucketListItem): BucketListItem{
         db.save(item)
+        return item
     }
 
     fun delete(id:Int): BucketListItem{
