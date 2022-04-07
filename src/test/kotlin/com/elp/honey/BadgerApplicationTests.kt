@@ -27,7 +27,9 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 	val bucketListItem = BucketListItem("2", "Yosemite")
 
 	@Test
-	fun exampleTest() {
+	fun `get collection with one valid item present`() {
+		//Positive expectation
+//		TODO: Check correct number of results and status code
 		every { bucketListService.findItems() } returns bucketListItems;
 
 		mockMvc.get("/api/v1/bucketlist/")
@@ -36,7 +38,20 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 	}
 
 	@Test
-	fun testIdDoesNotExist(){
+	fun `get collection with no items present`(){
+		//Negative expectation
+
+	}
+
+	@Test
+	fun `get resource where resource exists`(){
+		//Positive expectation
+
+	}
+
+	@Test
+	fun `get resource where resource does not exist`(){
+		//Negative expectation
 		every { bucketListService.findItem(3) } throws ResponseStatusException(HttpStatus.NOT_FOUND);
 
 		mockMvc.get("/api/v1/bucketlist/3")
@@ -45,20 +60,39 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 	}
 
 	@Test
-	fun contextLoads() {
-		var sum = 2 + 2
-		var answer = 4
-		assertEquals(sum, answer)
+	fun `post resource with valid nane`(){
+		//Positive expectation
+
 	}
 
-//	@Test
-//	fun testMyCode(){
-//		mockMvc.get("/api/v1/bucketlist/")
-//				.andExpect {
-//					status {
-//						isOk()
-//					}
-//				}
-//	}
+	@Test
+	fun `post resource with blank name`(){
+		//Negative expectation
+
+	}
+
+	@Test
+	fun `put (edit) resource with valid id`(){
+		//Positive expectation
+
+	}
+
+	@Test
+	fun `put (edit) resource with invalid id`(){
+		//Negative expectation
+
+	}
+
+	@Test
+	fun `delete resource with valid id`(){
+		//Positive expectation
+
+	}
+
+	@Test
+	fun `delete resource with invalid id`(){
+		//Negative expectation
+
+	}
 
 }
