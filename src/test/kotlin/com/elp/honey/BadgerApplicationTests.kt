@@ -16,10 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.http.ResponseEntity.status
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json
 import org.springframework.test.web.client.match.MockRestRequestMatchers.content
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.delete
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.*
 import org.springframework.web.server.ResponseStatusException
 import javax.print.attribute.standard.Media
 
@@ -49,8 +46,15 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 
 	@Test
 	fun `get collection with no items present`(){
+		every { bucketListService.findItems() } returns emptyList<BucketListItem>();
 		//Negative expectation
-		throw NotImplementedError()
+		mockMvc.get("/api/v1/bucketlist/"){
+		}.andExpect {
+			status{
+				isOk()
+			}
+			content { json("[]") }
+		}
 
 	}
 
@@ -116,8 +120,18 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 	@Test
 	fun `put (edit) resource with valid id`(){
 		//Positive expectation
-		throw NotImplementedError()
-
+		every { bucketListService.update(any())} returns bucketListItem
+		mockMvc.put("/api/v1/bucketlist/"){
+			content = MediaType.APPLICATION_JSON
+			content = mapper.writeValueAsString(BucketListItem("2", "Japan"))
+			accept = MediaType.APPLICATION_JSON
+		}.andExpect {
+			status{
+				isOk()
+			}
+			content { mapper.writeValueAsString(bucketListItem) }
+		}
+//		TODO: Why is the status returning 415?
 	}
 
 	@Test

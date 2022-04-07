@@ -43,7 +43,7 @@ class BucketListResource(val service: BucketListService) {
     }
 
     @PutMapping()
-    fun update(@RequestBody item: BucketListItem){
+    fun update(@RequestBody item: BucketListItem): BucketListItem{
         return service.update(item)
     }
 
@@ -92,7 +92,7 @@ class BucketListService(val db: ItemRepository) {
         }
     }
 
-    fun update(item: BucketListItem){
+    fun update(item: BucketListItem): BucketListItem{
         var id  = item.id
         var newName = item.name
         println("Item to update: " + id.toString())
@@ -101,6 +101,7 @@ class BucketListService(val db: ItemRepository) {
             var item = itemOptional.get()
             item.name = newName
             db.save(item)
+            return item
         }
         else{
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "This item does not exist")

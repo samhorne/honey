@@ -3937,3 +3937,6 @@ org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:830)
+2022-04-07 16:05:18 jdbc[43]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE FROM BUCKET_LIST_ITEM WHERE *[*]"; expected "NOT, EXISTS, INTERSECTS, UNIQUE"; SQL statement:
+delete from bucket_list_item where * [42001-200]
