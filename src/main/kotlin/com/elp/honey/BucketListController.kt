@@ -13,6 +13,7 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,7 +23,7 @@ import org.springframework.web.server.ResponseStatusException
 @RequestMapping("/api/v1/bucketlist")
 class BucketListResource(val service: BucketListService) {
     @GetMapping("/")
-    fun index(): List<BucketListItem>{
+    fun index(): MutableIterable<BucketListItem> {
         return service.findItems()
     }
     @GetMapping("/{id}")
@@ -32,7 +33,7 @@ class BucketListResource(val service: BucketListService) {
     }
 
     @PostMapping()
-//    @ResponseStatus(code = HttpStatus.CREATED, reason = "OK")
+    @ResponseStatus(code = HttpStatus.CREATED)
     fun post(@RequestBody item: BucketListItem): BucketListItem {
         return service.post(item)
     }
@@ -44,6 +45,7 @@ class BucketListResource(val service: BucketListService) {
 
     @PutMapping()
     fun update(@RequestBody item: BucketListItem): BucketListItem{
+        println(item)
         return service.update(item)
     }
 
@@ -54,15 +56,9 @@ data class BucketListItem(
         var name: String
         )
 
-interface ItemRepository: CrudRepository<BucketListItem, String>{
-    @Query("select * from BUCKET_LIST_ITEM")
-    fun findItems(): List<BucketListItem>
-
-}
-
 @Service
-class BucketListService(val db: ItemRepository) {
-    fun findItems(): List<BucketListItem> = db.findItems()
+class BucketListService(val db: CrudRepository<BucketListItem, String>) {
+    fun findItems(): MutableIterable<BucketListItem> = db.findAll()
 
     fun findItem(id: Int): BucketListItem{
         var itemOptional = db.findById(id.toString())
@@ -76,8 +72,10 @@ class BucketListService(val db: ItemRepository) {
     }
 
     fun post(item: BucketListItem): BucketListItem{
-        db.save(item)
-        return item
+        if (item.name == ""){
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST)
+        }
+        return db.save(item)
     }
 
     fun delete(id:Int): BucketListItem{
@@ -100,14 +98,14 @@ class BucketListService(val db: ItemRepository) {
         if (itemOptional.isPresent){
             var item = itemOptional.get()
             item.name = newName
-            db.save(item)
-            return item
+            return db.save(item)
         }
         else{
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "This item does not exist")
         }
-        println(item)
-//        db.save(item)
     }
 
 }
+//TODO: Seperate file for repository and interface
+//TODO: Accept id in the path for PUT. Anything dealing with a specific id should reside in the path
+//TODO: Mock out db functions instead of service

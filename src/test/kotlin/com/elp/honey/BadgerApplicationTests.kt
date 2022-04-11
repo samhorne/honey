@@ -46,7 +46,7 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 
 	@Test
 	fun `get collection with no items present`(){
-		every { bucketListService.findItems() } returns emptyList<BucketListItem>();
+		every { bucketListService.findItems() } returns mutableListOf<BucketListItem>();
 		//Negative expectation
 		mockMvc.get("/api/v1/bucketlist/"){
 		}.andExpect {
@@ -86,17 +86,14 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 		every { bucketListService.post(any())} returns bucketListItem
 		mockMvc.post("/api/v1/bucketlist"){
 			contentType = MediaType.APPLICATION_JSON
-			content = mapper.writeValueAsString(BucketListItem("2", "Yosemite"))
+			content = mapper.writeValueAsString(Name( "Yosemite"))
 			accept = MediaType.APPLICATION_JSON
 		}.andExpect {
-//			status { isCreated() }
+			status { isCreated() }
 			content { contentType((MediaType.APPLICATION_JSON))}
-			content { json("{\"id\": \"null\",\"name\": \"Yosemite\"}") }
+			content { json("{\"id\": \"2\",\"name\": \"Yosemite\"}") }
 		}
-//		TODO: Fix the mock. bucketListService.post() does not return the newly created id.
 //		TODO: Return correct status code.
-//		TODO: ID should not be required in the content of the post (auto-incremented).
-
 	}
 
 	@Test
@@ -105,8 +102,8 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 		//Expect 406 response
 
 		every { bucketListService.post(any())} throws ResponseStatusException(HttpStatus.NOT_ACCEPTABLE)
-		mockMvc.post("/api/v1/bucketlist"){
-			content = MediaType.APPLICATION_JSON
+		mockMvc.post("/api/v1/bucketlist/"){
+			contentType = MediaType.APPLICATION_JSON
 			content = mapper.writeValueAsString(Name(""))
 			accept = MediaType.APPLICATION_JSON
 		}.andExpect {
@@ -122,7 +119,7 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 		//Positive expectation
 		every { bucketListService.update(any())} returns bucketListItem
 		mockMvc.put("/api/v1/bucketlist/"){
-			content = MediaType.APPLICATION_JSON
+			contentType = MediaType.APPLICATION_JSON
 			content = mapper.writeValueAsString(BucketListItem("2", "Japan"))
 			accept = MediaType.APPLICATION_JSON
 		}.andExpect {
@@ -131,14 +128,22 @@ class BadgerApplicationTests(@Autowired val mockMvc: MockMvc){
 			}
 			content { mapper.writeValueAsString(bucketListItem) }
 		}
-//		TODO: Why is the status returning 415?
 	}
 
 	@Test
 	fun `put (edit) resource with invalid id`(){
 		//Negative expectation
-		throw NotImplementedError()
-
+		every { bucketListService.update(any())} throws ResponseStatusException(HttpStatus.NOT_FOUND)
+		mockMvc.put("/api/v1/bucketlist/"){
+			contentType = MediaType.APPLICATION_JSON
+			content = mapper.writeValueAsString(BucketListItem("2", "Japan"))
+			accept = MediaType.APPLICATION_JSON
+		}.andExpect {
+			status{
+				isNotFound()
+			}
+			content { mapper.writeValueAsString(bucketListItem) }
+		}
 	}
 
 	@Test
